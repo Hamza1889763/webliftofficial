@@ -1,26 +1,290 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ==========================================================================
+   WEBLIFTS — DESIGN TOKENS
+   Concept: ascent. Deep teal is the ground, mist is the relief, gold is
+   the accent and never a large fill.
+   ========================================================================== */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Ground */
+    --ink: 4 33 31;          /* #04211F  deepest — hero, work, cta   */
+    --teal: 8 58 57;         /* #083A39  brand mid — cards, forms    */
+    --teal-lift: 13 76 74;   /* #0D4C4A  raised surface on ink       */
+    --mist: 237 242 240;     /* #EDF2F0  cool relief section         */
+    --paper: 250 252 251;    /* #FAFCFB  raised surface on mist      */
+
+    /* Accent */
+    --gold: 247 198 61;      /* #F7C63D  brand accent                */
+    --bronze: 184 135 26;    /* #B8871A  AA-safe gold on light       */
+
+    /* Text */
+    --on-ink: 233 240 238;   /* #E9F0EE                              */
+    --on-ink-mute: 148 172 168;
+    --on-mist: 6 38 36;      /* #062624                              */
+    --on-mist-mute: 84 102 99;
+
+    /* Hairlines */
+    --rule-dark: 255 255 255 / 0.09;
+    --rule-light: 4 33 31 / 0.1;
+
+    /* Type scale — fluid, 4 steps of display + 3 of body */
+    --step--1: clamp(0.78rem, 0.76rem + 0.1vw, 0.84rem);
+    --step-0: clamp(0.95rem, 0.92rem + 0.16vw, 1.06rem);
+    --step-1: clamp(1.12rem, 1.02rem + 0.5vw, 1.35rem);
+    --step-2: clamp(1.6rem, 1.3rem + 1.5vw, 2.4rem);
+    --step-3: clamp(2.4rem, 1.7rem + 3.4vw, 4.5rem);
+    --step-4: clamp(3.2rem, 1.7rem + 7vw, 8rem);
+    --step-5: clamp(4rem, 1rem + 13vw, 14rem);
+
+    /* Motion — one easing for the whole site so everything feels related */
+    --lift: cubic-bezier(0.16, 1, 0.3, 1);
+    --swift: cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Rail width, so sections can reserve room for the altimeter */
+    --rail: 0px;
+  }
+
+  @media (min-width: 1024px) {
+    :root {
+      --rail: 76px;
+    }
   }
 }
 
+/* ==========================================================================
+   BASE ELEMENT STYLES — outside @layer
+   ========================================================================== */
+
+* {
+  border: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: auto; /* Lenis handles it */
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: rgb(var(--ink));
+  color: rgb(var(--on-ink));
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: var(--step-0);
+  line-height: 1.6;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overscroll-behavior-y: none;
+}
+
+/* Visible, on-brand keyboard focus everywhere. */
+:focus-visible {
+  outline: 2px solid rgb(var(--gold));
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: rgb(var(--gold));
+  color: rgb(var(--ink));
+}
+
+/* Native select options need an explicit background on dark forms. */
+option {
+  background: rgb(var(--teal));
+  color: rgb(var(--on-ink));
+}
+
+@layer components {
+  /* ---- Type roles ------------------------------------------------------ */
+
+  .display {
+    font-family: var(--font-display), system-ui, sans-serif;
+    font-weight: 700;
+    font-variation-settings: "wdth" 100, "opsz" 40;
+    letter-spacing: -0.035em;
+    line-height: 0.92;
+    text-wrap: balance;
+  }
+
+  /* The width axis used as a real design tool, not decoration. */
+  .display--wide {
+    font-variation-settings: "wdth" 120, "opsz" 48;
+  }
+
+  .display--narrow {
+    font-variation-settings: "wdth" 75, "opsz" 14;
+    letter-spacing: -0.01em;
+  }
+
+  .mono {
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-weight: 500;
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .lede {
+    font-size: var(--step-1);
+    line-height: 1.55;
+    font-weight: 400;
+    text-wrap: pretty;
+    max-width: 46ch;
+  }
+
+  /* ---- Layout ---------------------------------------------------------- */
+
+  .shell {
+    width: 100%;
+    max-width: 90rem;
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 4vw, 4.5rem);
+    padding-left: max(clamp(1.25rem, 4vw, 4.5rem), var(--rail));
+  }
+
+  .band {
+    position: relative;
+    padding-block: clamp(5.5rem, 12vh, 11rem);
+  }
+
+  /* ---- Surfaces -------------------------------------------------------- */
+
+  .on-ink {
+    background-color: rgb(var(--ink));
+    color: rgb(var(--on-ink));
+  }
+
+  .on-mist {
+    background-color: rgb(var(--mist));
+    color: rgb(var(--on-mist));
+  }
+
+  .card-lift {
+    position: relative;
+    border-radius: 1.5rem;
+    background: linear-gradient(
+      168deg,
+      rgb(var(--teal-lift) / 0.9) 0%,
+      rgb(var(--teal) / 0.72) 100%
+    );
+    box-shadow:
+      inset 0 1px 0 0 rgb(255 255 255 / 0.07),
+      0 1px 0 0 rgb(var(--ink)),
+      0 24px 60px -32px rgb(0 0 0 / 0.65);
+    transition:
+      transform 0.55s var(--lift),
+      box-shadow 0.55s var(--lift);
+  }
+
+  .card-lift:hover {
+    transform: translateY(-6px);
+    box-shadow:
+      inset 0 1px 0 0 rgb(var(--gold) / 0.28),
+      0 1px 0 0 rgb(var(--ink)),
+      0 40px 80px -36px rgb(0 0 0 / 0.8);
+  }
+
+  .card-paper {
+    border-radius: 1.5rem;
+    background: rgb(var(--paper));
+    box-shadow:
+      inset 0 0 0 1px rgb(var(--rule-light)),
+      0 20px 48px -30px rgb(4 33 31 / 0.22);
+    transition:
+      transform 0.55s var(--lift),
+      box-shadow 0.55s var(--lift);
+  }
+
+  .card-paper:hover {
+    transform: translateY(-6px);
+    box-shadow:
+      inset 0 0 0 1px rgb(var(--bronze) / 0.32),
+      0 32px 64px -32px rgb(4 33 31 / 0.28);
+  }
+
+  /* Gold hairline that only exists as a 1px gradient edge — accent, not fill. */
+  .edge-gold {
+    position: relative;
+  }
+  .edge-gold::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      145deg,
+      rgb(var(--gold) / 0.75),
+      rgb(var(--gold) / 0) 42%,
+      rgb(var(--gold) / 0) 62%,
+      rgb(var(--gold) / 0.34)
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* ---- Text mask lift -------------------------------------------------- */
+
+  .lift-mask {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.06em; /* room for descenders inside the mask */
+  }
+
+  /* ---- Misc ------------------------------------------------------------ */
+
+  .hairline-dark {
+    border-top: 1px solid rgb(var(--rule-dark));
+  }
+  .hairline-light {
+    border-top: 1px solid rgb(var(--rule-light));
+  }
+
+  .no-bar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-bar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer utilities {
+  .gold-wash {
+    background-image: linear-gradient(
+      100deg,
+      rgb(var(--gold)) 0%,
+      #ffe89a 46%,
+      rgb(var(--gold)) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+/* ==========================================================================
+   REDUCED MOTION — honoured globally, not per-component
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .card-lift:hover,
+  .card-paper:hover {
+    transform: none;
+  }
 }
