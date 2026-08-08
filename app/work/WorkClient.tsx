@@ -11,6 +11,7 @@ import {
 } from 'framer-motion'
 
 import { LIFT } from '@/lib/motion'
+import { PROJECTS } from '@/lib/work'
 import Nav from '@/components/chrome/Nav'
 import Footer from '@/components/sections/Footer'
 import Lift from '@/components/atoms/Lift'
@@ -27,9 +28,11 @@ const HERO_IMAGE =
   'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1800&q=80'
 
 // ---------------------------------------------------------------------------
-// Per-project Unsplash covers
+// Per-project cover overrides, keyed by the SAME slug lib/work uses.
+// Falls back to the project's own `cover` field if a slug has no override —
+// so a typo here never breaks a link, it just shows the default image.
 // ---------------------------------------------------------------------------
-const PROJECT_COVERS: Record<string, string> = {
+const COVER_OVERRIDES: Record<string, string> = {
   sipz: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=900&q=80',
   'mr-holdings':
     'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=900&q=80',
@@ -39,51 +42,18 @@ const PROJECT_COVERS: Record<string, string> = {
     'https://images.unsplash.com/photo-1476224203421-9ac39bcb3df5?auto=format&fit=crop&w=900&q=80',
 }
 
-function cover(slug: string, fallback: string): string {
-  return PROJECT_COVERS[slug] ?? fallback
-}
-
-// ---------------------------------------------------------------------------
-// Projects
-// ---------------------------------------------------------------------------
-const WORK_PROJECTS = [
-  {
-    slug: 'sipz',
-    name: 'Sipz with a Twist',
-    headline: 'Full UI/UX redesign from dark crimson to rose-red white',
-    sector: 'Beverage / Lifestyle',
-    year: '2024',
-    services: ['UI/UX', 'Flutter'],
-    cover: cover('sipz', '/work/sipz/cover.jpg'),
-  },
-  {
-    slug: 'mr-holdings',
-    name: 'MR Holdings',
-    headline: 'Luxury real estate platform with property search and CMS',
-    sector: 'Real Estate',
-    year: '2024',
-    services: ['Web Development', 'CMS'],
-    cover: cover('mr-holdings', '/work/mr-holdings/cover.jpg'),
-  },
-  {
-    slug: 'moose-on-the-run',
-    name: 'Moose on the Run',
-    headline: '24/7 convenience store site with menu navigation and Sipz banner',
-    sector: 'F&B / Retail',
-    year: '2024',
-    services: ['Web Development', 'UI/UX'],
-    cover: cover('moose-on-the-run', '/work/moose-on-the-run/cover.jpg'),
-  },
-  {
-    slug: 'smartbite',
-    name: 'SmartBite',
-    headline: 'Food-tech ordering platform with real-time menu management',
-    sector: 'Food Tech',
-    year: '2024',
-    services: ['Web Development', 'UI/UX'],
-    cover: cover('smartbite', '/work/smartbite/cover.jpg'),
-  },
-]
+// Single source of truth: PROJECTS from lib/work, with an optional cover
+// override layered on top. Slugs here can never drift from the detail route,
+// because they come from the same array the detail route reads.
+const WORK_PROJECTS = PROJECTS.map((p) => ({
+  slug: p.slug,
+  name: p.name,
+  headline: p.headline,
+  sector: p.sector,
+  year: p.year,
+  services: p.services,
+  cover: COVER_OVERRIDES[p.slug] ?? p.cover,
+}))
 
 const ALL_PROJECT_SERVICES = [
   ...new Set(WORK_PROJECTS.flatMap((p) => p.services)),
@@ -189,7 +159,7 @@ export default function WorkClient() {
           />
 
           {/* Dark overlay */}
-          <div className="absolute inset-0 bg-ink/72" />
+          <div className="absolute inset-0 bg-ink/70" />
 
           {/* Gold glow — centred on the copy, not the top edge */}
           <div
@@ -354,7 +324,7 @@ export default function WorkClient() {
           <div className="shell">
             <div className="grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-end">
               <div>
-                <Eyebrow index="/ next" tone="light">
+                <Eyebrow index="042" tone="light">
                   Your turn
                 </Eyebrow>
                 <Lift

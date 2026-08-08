@@ -22,7 +22,7 @@ const SERVICES = [
   'Not sure yet',
 ]
 
-const BUDGETS = ['Under PKR 200k', 'PKR 200k – 500k', 'PKR 500k – 1m', 'Over PKR 1m']
+//const BUDGETS = ['Under PKR 200k', 'PKR 200k – 500k', 'PKR 500k – 1m', 'Over PKR 1m']
 
 /**
  * Field with a label that sits above the input at all times — floating labels
@@ -268,7 +268,7 @@ export default function Brief() {
                   </div>
                 </fieldset>
 
-                <fieldset className="mt-7">
+             {/*   <fieldset className="mt-7">
                   <legend className="mono mb-3 text-on-ink-mute">Budget range</legend>
                   <div className="flex flex-wrap gap-2">
                     {BUDGETS.map((b) => (
@@ -287,7 +287,7 @@ export default function Brief() {
                       </label>
                     ))}
                   </div>
-                </fieldset>
+                </fieldset> */}
 
                 <div className="mt-7">
                   <Field

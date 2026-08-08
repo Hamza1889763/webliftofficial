@@ -1,8 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { use, useEffect, useState } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { LIFT } from '@/lib/motion'
+import { usePathname } from 'next/dist/client/components/navigation'
 
 /**
  * Load sequence: an altitude readout climbs 000 → 100 while a gold rule spans
@@ -13,6 +14,12 @@ export default function Preloader() {
   const reduce = useReducedMotion()
   const [done, setDone] = useState(false)
   const [n, setN] = useState(0)
+
+  const pathname = usePathname();
+
+  if (pathname === '/services' || pathname.startsWith('/work')) {
+    return null;
+  }
 
   useEffect(() => {
     if (reduce) {

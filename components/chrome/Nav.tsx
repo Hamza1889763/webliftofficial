@@ -14,7 +14,7 @@ import Icon from '@/components/atoms/Icon'
 import Magnetic from '@/components/atoms/Magnetic'
 
 const LINKS = SECTIONS.filter((s) =>
-  ['services', 'work', 'ascent', 'process', 'pricing', 'brief'].includes(s.id)
+  ['services', 'work', 'ascent', 'process', 'about', 'contact'].includes(s.id)
 )
 
 /**

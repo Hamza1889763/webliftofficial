@@ -4,9 +4,7 @@ import './globals.css'
 
 import SmoothScroll from '@/components/providers/SmoothScroll'
 import Grain from '@/components/atoms/Grain'
-import Preloader from '@/components/chrome/Preloader'
 import Nav from '@/components/chrome/Nav'
-import Altimeter from '@/components/chrome/Altimeter'
 
 const display = Bricolage_Grotesque({
   subsets: ['latin'],
@@ -57,13 +55,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${display.variable} ${body.variable} ${mono.variable}`}
+      className={`${display.variable} ${body.variable} ${mono.variable} scroll-smooth data-scroll-behavior="smooth"`}
     >
       <body suppressHydrationWarning>
-        <Preloader />
         <Grain />
         <Nav />
-        <Altimeter />
         <SmoothScroll>
           <main>{children}</main>
         </SmoothScroll>

@@ -5,11 +5,11 @@ import Work from '@/components/sections/Work'
 import Capability from '@/components/sections/Capability'
 import Ascent from '@/components/sections/Ascent'
 import Voices from '@/components/sections/Voices'
-import Pricing from '@/components/sections/Pricing'
 import Questions from '@/components/sections/Questions'
 import Brief from '@/components/sections/Brief'
 import Footer from '@/components/sections/Footer'
-
+import Altimeter from '@/components/chrome/Altimeter'
+import Preloader from '@/components/chrome/Preloader'
 /**
  * Storytelling order, and the tonal grounds alternate so no two adjacent
  * sections share a background:
@@ -28,6 +28,8 @@ import Footer from '@/components/sections/Footer'
 export default function Home() {
   return (
     <>
+    <Preloader />
+    <Altimeter />
       <Hero />
       <Ticker />
       <Services />
@@ -35,7 +37,6 @@ export default function Home() {
       <Capability />
       <Ascent />
       <Voices />
-      <Pricing />
       <Questions />
       <Brief />
       <Footer />

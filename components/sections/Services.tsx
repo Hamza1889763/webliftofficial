@@ -151,9 +151,7 @@ export default function Services() {
                     <span className="text-gold">{current.index}</span>
                     <span className="text-on-ink-mute"> / 05</span>
                   </span>
-                  <span className="mono rounded-full bg-ink/45 px-3.5 py-2 text-on-ink backdrop-blur-md">
-                    from {current.from}
-                  </span>
+                  
                 </div>
 
                 <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">

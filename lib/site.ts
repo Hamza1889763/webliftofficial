@@ -22,11 +22,11 @@ export const SECTIONS = [
   { id: 'services', label: 'Services', alt: '020', theme: 'mist' },
   { id: 'work', label: 'Work', alt: '038', theme: 'dark' },
   { id: 'capability', label: 'Capability', alt: '052', theme: 'dark' },
-  { id: 'ascent', label: 'Process', alt: '066', theme: 'mist' },
+  { id: 'process', label: 'Process', alt: '066', theme: 'mist' },
   { id: 'voices', label: 'Clients', alt: '078', theme: 'dark' },
-  { id: 'pricing', label: 'Pricing', alt: '086', theme: 'mist' },
+  { id: 'about', label: 'About', alt: '086', theme: 'mist' },
   { id: 'questions', label: 'FAQ', alt: '094', theme: 'mist' },
-  { id: 'brief', label: 'Start', alt: '100', theme: 'dark' },
+  { id: 'contact', label: 'Contact', alt: '100', theme: 'dark' },
 ] as const
 
 export type SectionId = (typeof SECTIONS)[number]['id']
