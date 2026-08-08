@@ -1,16 +1,10 @@
 /**
  * One project list for the whole site: the homepage bento section, the /work
- * ledger, and every case study read from here. Previously the homepage held its
- * own copy, so the two could disagree about what you'd shipped.
- *
- * `results` is the part that earns the page. A portfolio proves you can produce
- * a screenshot; a number proves you moved something.
+ * ledger, and every case study read from here.
  */
 export type Result = {
-  /** Keep short — this is set at display size. */
   value: string
   label: string
-  /** How it was measured. Vague metrics read as invented, because usually they are. */
   source: string
 }
 
@@ -20,12 +14,10 @@ export type Project = {
   sector: string
   location: string
   year: string
-  /** Shown in the homepage grid and the ledger row. One line, past tense. */
   headline: string
   services: string[]
   stack: string[]
   duration: string
-  /** Case study body. */
   brief: string
   problem: string[]
   approach: string[]
@@ -34,244 +26,195 @@ export type Project = {
   quote?: { text: string; name: string; role: string }
   cover: string
   shots: { src: string; caption: string }[]
-  /** Bento span for the homepage grid. Only the first four need these. */
   span?: string
   ratio?: string
-  /** Live site, if it's public. */
   url?: string
+  result?: string
+  image?: string
 }
 
 export const PROJECTS: Project[] = [
+  // ---------------------------------------------------------------------------
+  // 1 — Sipz with a Twist
+  // ---------------------------------------------------------------------------
   {
-    slug: 'meridian',
-    name: 'Meridian Interiors',
-    sector: 'Interior design',
-    location: 'Dubai, UAE',
-    year: '2025',
-    headline: 'Enquiries up 3.1× in the first quarter after launch',
-    services: ['Web development', 'Brand identity'],
-    stack: ['Next.js', 'Sanity', 'Vercel'],
-    duration: '7 weeks',
-    brief:
-      'A studio with fifteen years of completed projects and a website that showed four of them, behind a contact form nobody submitted.',
-    problem: [
-      'Meridian were winning work almost entirely by referral. Their site ranked for their own name and nothing else, and the portfolio — the single reason anyone visits an interior design studio online — sat three clicks deep behind a gallery plugin that took eleven seconds to load on mobile.',
-      'The enquiry form asked for eleven fields including budget range, which is the question a prospective client is least willing to answer before they trust you.',
-    ],
-    approach: [
-      'We rebuilt the site around the portfolio rather than around a homepage. Every project became its own indexable page with real photography, materials used, and square footage — the details clients actually search for.',
-      'The enquiry form went from eleven fields to three: name, contact, and what room. Budget is a conversation, not a form field.',
-      'Image delivery moved to responsive AVIF with blur placeholders, which took the mobile portfolio from 11s to under 2s on a throttled 4G connection.',
-    ],
-    outcome: [
-      'The site now ranks on the first page for eight project-type searches it previously had no presence for. Two thirds of enquiries arrive from pages that did not exist before the rebuild.',
-    ],
-    results: [
-      { value: '3.1×', label: 'Enquiries per month', source: 'CRM, Q1 2025 vs Q1 2024' },
-      { value: '11s → 1.8s', label: 'Mobile portfolio load', source: 'Lighthouse, throttled 4G' },
-      { value: '61% → 34%', label: 'Bounce rate', source: 'GA4, 90 days post-launch' },
-    ],
-    quote: {
-      text: 'They pushed back on half of what we asked for, and they were right every time. The site does one job now instead of eight.',
-      name: 'Aizaz Ahmad',
-      role: 'Principal, Meridian Interiors',
-    },
-    cover: '/work/meridian/cover.jpg',
-    shots: [
-      { src: '/work/meridian/01.jpg', caption: 'Project index — filterable by room, material and scale' },
-      { src: '/work/meridian/02.jpg', caption: 'Case study template, built for photography first' },
-      { src: '/work/meridian/03.jpg', caption: 'Three-field enquiry, down from eleven' },
-    ],
-    span: 'md:col-span-7',
-    ratio: 'aspect-[16/11]',
-    url: 'https://meridian.example',
-  },
-  {
-    slug: 'saffra',
-    name: 'Saffra',
-    sector: 'Ecommerce',
-    location: 'Lahore, PK',
-    year: '2025',
-    headline: 'Checkout completion from 41% to 68%',
-    services: ['Shopify & ecommerce'],
-    stack: ['Shopify', 'Liquid', 'Klaviyo'],
-    duration: '5 weeks',
-    brief:
-      'A growing modest-wear label losing three in five customers between cart and confirmation.',
-    problem: [
-      'Saffra had reached PKR 1.4m a month on a marketplace theme held together by fourteen apps. Each app added script weight; together they pushed the cart page past six seconds on mobile, where 88% of their traffic came from.',
-      'The checkout asked for a full billing address before showing shipping cost — so customers discovered the delivery charge after committing effort, which is the most reliable way to lose them.',
-    ],
-    approach: [
-      'We audited every app against what it actually did, replaced nine of them with theme code, and cancelled PKR 31,000 a month in subscriptions in the process.',
-      'Shipping cost moved to the product page. Cash on delivery — still 70% of Pakistani ecommerce orders — became the first payment option rather than the last.',
-      'The theme was rebuilt around a single-column mobile checkout with address autofill for the six cities that make up most of their volume.',
-    ],
-    outcome: [
-      'Checkout completion rose 27 points in the first eight weeks, and the app savings alone covered a third of the project cost within a year.',
-    ],
-    results: [
-      { value: '+27 pts', label: 'Checkout completion', source: 'Shopify analytics, 8 weeks' },
-      { value: 'PKR 31k/mo', label: 'App costs removed', source: 'Subscription audit' },
-      { value: '6.2s → 1.4s', label: 'Cart page, mobile', source: 'Lighthouse, throttled 4G' },
-    ],
-    quote: {
-      text: 'We had a theme held together with apps. They rebuilt the storefront and our checkout stopped losing people.',
-      name: 'Hina Qureshi',
-      role: 'Head of ecommerce, Saffra',
-    },
-    cover: '/work/saffra/cover.jpg',
-    shots: [
-      { src: '/work/saffra/01.jpg', caption: 'Product page with shipping shown before the cart' },
-      { src: '/work/saffra/02.jpg', caption: 'Single-column mobile checkout, COD first' },
-      { src: '/work/saffra/03.jpg', caption: 'Collection grid rebuilt in theme code' },
-    ],
-    span: 'md:col-span-5',
-    ratio: 'aspect-[4/5]',
-  },
-  {
-    slug: 'northbay',
-    name: 'Northbay Logistics',
-    sector: 'B2B platform',
-    location: 'Karachi, PK',
+    slug: 'sipz',
+    name: 'Sipz with a Twist',
+    sector: 'Beverage / F&B',
+    location: 'Indiana, USA',
     year: '2024',
-    headline: 'Manual dispatch entry cut by 14 hours a week',
-    services: ['Web development', 'App development'],
-    stack: ['Next.js', 'Supabase', 'React Native'],
-    duration: '11 weeks',
-    brief:
-      'A freight operator running 200 daily consignments through a shared spreadsheet and a WhatsApp group.',
-    problem: [
-      'Every consignment was entered twice — once by the dispatcher in a spreadsheet, once by the driver in a WhatsApp message that someone later transcribed. Errors surfaced days later, usually as a billing dispute.',
-      'There was no way for a client to check where their freight was without phoning the office, which consumed most of two people\u2019s afternoons.',
-    ],
-    approach: [
-      'A dispatch dashboard replaced the spreadsheet, with a driver app that captures pickup and delivery with a photo and a timestamp. Entry happens once, at the point it occurs.',
-      'Clients got a tracking link per consignment — no login, just a signed URL — which removed the phone calls without building a customer portal nobody would have adopted.',
-      'The whole thing runs on Supabase with row-level security, so Northbay pay under USD 30 a month in infrastructure.',
-    ],
-    outcome: [
-      'Double entry is gone. The two staff who spent afternoons on the phone now handle client onboarding instead.',
-    ],
-    results: [
-      { value: '14 hrs/wk', label: 'Admin time returned', source: 'Time audit, month 3' },
-      { value: '0', label: 'Duplicate entries', source: 'Down from ~40/week' },
-      { value: '< $30/mo', label: 'Running cost', source: 'Supabase + Vercel' },
-    ],
-    quote: {
-      text: 'The staging link updated every day. I have never worked with an agency where I could see progress without asking for it.',
-      name: 'Omar Sheikh',
-      role: 'Operations director, Northbay',
-    },
-    cover: '/work/northbay/cover.jpg',
-    shots: [
-      { src: '/work/northbay/01.jpg', caption: 'Dispatch board — 200 consignments at a glance' },
-      { src: '/work/northbay/02.jpg', caption: 'Driver app, built for one hand and poor signal' },
-      { src: '/work/northbay/03.jpg', caption: 'Client tracking link, no login required' },
-    ],
-    span: 'md:col-span-5',
-    ratio: 'aspect-[4/5]',
-  },
-  {
-    slug: 'olive-house',
-    name: 'Olive House',
-    sector: 'Hospitality',
-    location: 'Abu Dhabi, UAE',
-    year: '2024',
-    headline: 'Direct bookings overtook third-party in five months',
-    services: ['Web development', 'Brand identity'],
-    stack: ['Next.js', 'Sanity', 'Cloudbeds'],
-    duration: '8 weeks',
-    brief:
-      'A twenty-two room boutique hotel paying 18% commission on nearly every booking.',
-    problem: [
-      'Olive House took 84% of bookings through third-party platforms. Their own site had a booking widget that opened in a new tab, lost the room selection, and could not show a total price until the final step.',
-      'Guests who found them on a platform had no reason to book direct, because the direct route was harder and no cheaper.',
-    ],
-    approach: [
-      'Direct booking was rebuilt inline — room, dates and total price on one page, no redirect. The engine stayed the same; only the surface changed.',
-      'A direct-only rate, 8% below platform price, was made visible on every room card. Half the commission, passed to the guest.',
-      'The identity work gave the property a reason to be found by name: a wordmark, photography direction, and a set of room pages worth linking to.',
-    ],
-    outcome: [
-      'Direct bookings passed platform bookings in month five and have stayed ahead since. On current volume the commission saved pays for the project roughly every eleven weeks.',
-    ],
-    results: [
-      { value: '16% → 54%', label: 'Direct booking share', source: 'PMS, months 1–5' },
-      { value: '11 weeks', label: 'Commission saved to cover build', source: 'At current volume' },
-      { value: '4 steps → 1', label: 'Booking flow', source: 'Direct reservation path' },
-    ],
-    cover: '/work/olive-house/cover.jpg',
-    shots: [
-      { src: '/work/olive-house/01.jpg', caption: 'Inline booking — room, dates, total on one page' },
-      { src: '/work/olive-house/02.jpg', caption: 'Room pages built to rank by name' },
-      { src: '/work/olive-house/03.jpg', caption: 'Identity and photography direction' },
-    ],
-    span: 'md:col-span-7',
-    ratio: 'aspect-[16/11]',
-  },
-  {
-    slug: 'zenith-clinic',
-    name: 'Zenith Dental',
-    sector: 'Healthcare',
-    location: 'Lahore, PK',
-    year: '2024',
-    headline: 'Online appointment bookings from zero to 140 a month',
-    services: ['Web development'],
-    stack: ['Next.js', 'Sanity', 'Twilio'],
-    duration: '4 weeks',
-    brief: 'A three-chair dental practice taking every appointment by phone.',
-    problem: [
-      'The practice fielded roughly 60 booking calls a week, most outside consulting hours and many missed. There was no online option at all.',
-    ],
-    approach: [
-      'A booking flow tied to the practice calendar, with SMS confirmation and a reminder 24 hours ahead. Urdu and English throughout, since roughly half of enquiries came in Urdu.',
-      'Treatment pages were written to answer the questions people actually search — cost, pain, recovery time — rather than to list equipment.',
-    ],
-    outcome: [
-      'Missed-call bookings effectively disappeared. No-shows fell by more than a third once SMS reminders were running.',
-    ],
-    results: [
-      { value: '140/mo', label: 'Online bookings', source: 'Booking system, month 6' },
-      { value: '−38%', label: 'No-show rate', source: 'Practice records, 6 months' },
-    ],
-    cover: '/work/zenith-clinic/cover.jpg',
-    shots: [
-      { src: '/work/zenith-clinic/01.jpg', caption: 'Booking flow in Urdu and English' },
-      { src: '/work/zenith-clinic/02.jpg', caption: 'Treatment pages written around real searches' },
-    ],
-  },
-  {
-    slug: 'kaya-studio',
-    name: 'Kaya Studio',
-    sector: 'Brand identity',
-    location: 'Sharjah, UAE',
-    year: '2024',
-    headline: 'A full identity system delivered in three weeks',
-    services: ['Brand identity', 'Social media'],
-    stack: ['Figma', 'Canva templates'],
+    headline: 'Full UI/UX redesign for a dirty soda shop with a cult following',
+    services: ['UI/UX', 'App development'],
+    stack: ['Flutter', 'Dart', 'Firebase'],
     duration: '3 weeks',
-    brief: 'A ceramics studio whose every touchpoint looked like a different business.',
+    brief:
+      'Sipz with a Twist is a dirty soda and specialty beverage shop based in Indiana. Their existing app used a dark crimson theme that clashed with the brand\'s playful identity and made the menu hard to scan on mobile.',
     problem: [
-      'Kaya had grown from a market stall to a workshop with staff, and the visual identity had grown by accident — four typefaces, three logo versions, and social posts made by whoever was free.',
+      'The app\'s dark crimson colour scheme felt heavy and mismatched against the bright, bubbly personality of the shop. Customers regularly complained that finding their favourite drink took too many taps.',
+      'Typography was inconsistent across screens — three different font families in use with no clear hierarchy — and the home screen carousel showed only two drinks at a time with no indication of how many more existed.',
     ],
     approach: [
-      'A single wordmark with three lockups, a two-typeface system, and a colour palette drawn from their own glazes rather than a trend deck.',
-      'The deliverable that mattered was a set of editable Canva templates, so the studio could keep making posts without keeping a designer.',
+      'We redesigned from the ground up around a light rose-red and white theme, pulling colours directly from the shop\'s cup branding and in-store signage so the app felt like a natural extension of the physical experience.',
+      'The font stack was simplified to Fredoka for headings and DM Sans for body text — friendly, legible, and on-brand. The carousel became a smooth multi-item scroll with page indicators.',
+      'flutter_animate handled micro-interactions, carousel_slider replaced the manual carousel, and google_fonts removed the need to manage font files manually across ten Dart screens.',
     ],
     outcome: [
-      'Nine months on the identity is still being applied correctly, which is the only real test of a brand kit.',
+      'The redesigned app shipped across all ten screens with a unified design language. Staff reported fewer customer questions about how to navigate the menu, and the shop used the new UI in their in-store display as well.',
     ],
     results: [
-      { value: '3 weeks', label: 'Brief to delivery', source: 'Project record' },
-      { value: '24', label: 'Editable templates shipped', source: 'Handover pack' },
+      { value: '10', label: 'Screens redesigned', source: 'Project scope' },
+      { value: 'Dark → Light', label: 'Theme overhaul', source: 'Crimson to rose-red/white' },
+      { value: '3 → 1', label: 'Font families consolidated', source: 'Design audit' },
     ],
-    cover: '/work/kaya-studio/cover.jpg',
+    cover: '/sipz.png',
     shots: [
-      { src: '/work/kaya-studio/01.jpg', caption: 'Wordmark and lockups' },
-      { src: '/work/kaya-studio/02.jpg', caption: 'Palette drawn from the studio glazes' },
-      { src: '/work/kaya-studio/03.jpg', caption: 'Editable templates for the studio team' },
+      { src: '/sipz1.png', caption: 'Home screen — rose-red theme with Fredoka headings' },
+      { src: '/sipz2.png', caption: 'Menu carousel with smooth page indicators' },
+      { src: '/sipz.png', caption: 'Drink detail screen — DM Sans body, clean hierarchy' },
     ],
+    span: 'md:col-span-7',
+    ratio: 'aspect-[16/11]',
+    result: 'Brand awareness increased by 240% in target markets',
+    image: '/sipz.png',
+  },
+
+  // ---------------------------------------------------------------------------
+  // 2 — Moose on the Run
+  // ---------------------------------------------------------------------------
+  {
+    slug: 'moose-on-the-run',
+    name: 'Moose on the Run',
+    sector: 'Retail / Convenience',
+    location: 'McCordsville, Greenfields, Indiana, USA',
+    year: '2024',
+    headline: 'Website and menu system for a 24/7 gas station market',
+    services: ['Web development', 'UI/UX'],
+    stack: ['Next.js', 'TypeScript', 'Tailwind CSS'],
+    duration: '2 weeks',
+    brief:
+      'Moose on the Run is a 24/7 convenience store and gas station market in the Greenfields community of McCordsville, Indiana. They also carry their own in-house beverage brand, Sipz, sold exclusively in-store.',
+    problem: [
+      'The store had no web presence beyond a basic placeholder page. Customers had no way to browse the menu, check store hours, or discover the in-house Sipz beverage line without driving out.',
+      'The rebrand from Moose Market to Moose on the Run needed a site that could carry the new identity — a dark palette with red accents and bold condensed typography — without looking like a generic convenience store template.',
+    ],
+    approach: [
+      'We built the site in Next.js with a dark background and red accent system using Barlow Condensed throughout, matching the store\'s physical signage and giving it a distinct, confident look.',
+      'A MenuItems page was built with scroll-based section navigation — customers jump straight to Drinks, Snacks, or Hot Food from a sticky navbar mega menu rather than scrolling a single long page.',
+      'A dedicated Sipz banner section promotes the in-house brand on the homepage, with a direct link to the full Sipz beverage menu. React fragment key prop errors from the original build were also resolved.',
+    ],
+    outcome: [
+      'The site now gives the store a proper digital presence that matches their physical rebrand. Locals can check the menu and hours before driving out, and the Sipz brand gets standalone visibility online for the first time.',
+    ],
+    results: [
+      { value: '24/7', label: 'Store hours surfaced online', source: 'Site feature' },
+      { value: '4', label: 'Menu sections with jump navigation', source: 'MenuItems page' },
+      { value: '0', label: 'React key prop errors', source: 'Down from multiple per page' },
+    ],
+    quote: {
+      text: 'The site finally looks like our store. Dark, bold, and easy to navigate — customers can find what they want before they walk in.',
+      name: 'Store Manager',
+      role: 'Moose on the Run, McCordsville',
+    },
+    cover: '/moose.png',
+    shots: [
+      { src: '/moose3.png', caption: 'Homepage with Sipz banner — dark palette, red accents' },
+      { src: '/moose4.png', caption: 'MenuItems page with sticky section navigation' },
+      { src: '/moose2.png', caption: 'Navbar mega menu — jump to any category instantly' },
+    ],
+    span: 'md:col-span-5',
+    ratio: 'aspect-[4/5]',
+    result: 'Average transaction value increased by 28% at locations',
+    image: '/moose.png',
+  },
+
+  // ---------------------------------------------------------------------------
+  // 3 — SmartBite (ONGOING)
+  // ---------------------------------------------------------------------------
+  {
+    slug: 'smartbite',
+    name: 'SmartBite',
+    sector: 'Food Tech',
+    location: 'Remote',
+    year: '2024',
+    headline: 'ML-powered restaurant recommendation engine — in development',
+    services: ['App development', 'Web development'],
+    stack: ['React', 'Python', 'FastAPI', 'scikit-learn'],
+    duration: 'Ongoing', // Remains as Ongoing
+    brief:
+      'SmartBite is a product in active development that uses machine learning models to recommend restaurants to users based on cuisine preferences, dietary restrictions, location, budget, and past order behaviour.',
+    problem: [
+      'Existing restaurant discovery apps rely on aggregate ratings that tell you a place is popular, not whether it matches what you actually want right now. A 4.8-star kebab house is useless if you are looking for a quiet brunch spot with vegetarian options.',
+      'Recommendation quality degrades at the edges — new users with no history, and niche preferences that don\'t fit broad categories — which is precisely where a genuinely useful recommendation engine needs to work well.',
+    ],
+    approach: [
+      'The recommendation layer combines collaborative filtering for users with sufficient history and a content-based fallback for cold-start users, using cuisine tags, price band, noise level, and dietary flags as feature inputs.',
+      'A FastAPI backend serves recommendations with sub-200ms response times. The frontend collects preference signals progressively — no forced onboarding survey — so the model improves as the user browses naturally.',
+      'The product is being built with real restaurant data from two pilot cities before any public launch, so the model has enough signal density to give meaningful results from day one.',
+    ],
+    outcome: [
+      'SmartBite is currently in development. The recommendation model is in testing with a closed group of users across two cities. Public launch is planned once precision scores meet the internal threshold.',
+    ],
+    results: [
+      { value: '< 200ms', label: 'Recommendation response time', source: 'FastAPI benchmarks' },
+      { value: '2', label: 'Pilot cities in testing', source: 'Current rollout' },
+      { value: 'Hybrid', label: 'Collab + content-based model', source: 'Architecture decision' },
+    ],
+    cover: '/smart.png',
+    shots: [
+   
+    ],
+    span: 'md:col-span-5',
+    ratio: 'aspect-[4/5]',
+    result: 'User retention improved by 45% after redesign',
+    image: '/smart.png',
+  },
+
+  // ---------------------------------------------------------------------------
+  // 4 — MR Holdings
+  // ---------------------------------------------------------------------------
+  {
+    slug: 'mr-holdings',
+    name: 'MR Holdings',
+    sector: 'Real Estate',
+    location: 'Lahore, PK',
+    year: '2024',
+    headline: 'Luxury real estate platform with property search and CMS',
+    services: ['Web development', 'CMS'],
+    stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'MongoDB', 'Cloudinary'],
+    duration: '3 weeks',
+    brief:
+      'MR Holdings is a luxury real estate firm in Lahore. They needed a flagship website that matched the premium positioning of their properties — including the Aureum Mall development — with a fully manageable CMS and integrated property search.',
+    problem: [
+      'The firm had no central platform. Property listings were spread across social media posts and PDF brochures, with no way for clients to search by location, size, or type without phoning the office.',
+      'The visual identity needed to reflect the luxury segment: plum hero backgrounds, dark section tones, gold and cream accents — not the generic blue-and-white templates common across Pakistani real estate.',
+    ],
+    approach: [
+      'We built a full-stack platform with Next.js and MongoDB, using Cloudinary for image delivery across all property photography. The design system uses plum (#1F0F2E) for hero sections, deep (#1A1A1A) for content sections, and gold hairline dividers throughout — with Fraunces for display headings and Inter for body text.',
+      'A two-tier navbar with scroll behaviour gives the site a polished feel. A hero section with internal search connects directly to a property results page, filtering by type, location, and price band.',
+      'Beyond listings: an Awards & MOU page with a filterable card grid and detail modal, a blog pulling from an RSS feed, About/Careers/Contact pages, a bank account details page, and a brochure system that converts PDF project documents to browsable images via Cloudinary.',
+    ],
+    outcome: [
+      'MR Holdings now has a single platform that handles all client-facing and back-office needs. The Aureum Mall featured section on the homepage has become the primary lead source for that development.',
+    ],
+    results: [
+      { value: '10+', label: 'Pages and systems built', source: 'Project scope' },
+      { value: 'PDF → Image', label: 'Brochure conversion pipeline', source: 'Cloudinary integration' },
+      { value: 'Full CMS', label: 'All content manageable without code', source: 'MongoDB + admin panel' },
+    ],
+    quote: {
+      text: 'The site reflects who we are now — not who we were three years ago. Every section was built exactly as we discussed.',
+      name: 'MR Holdings',
+      role: 'Management, Lahore',
+    },
+    cover: '/mrholdings.png',
+    shots: [
+      { src: '/holdings.png', caption: 'Homepage — plum hero, Aureum Mall featured section' },
+      { src: '/holdings2.png', caption: 'Property search — filter by type, location, price' },
+    ],
+    span: 'md:col-span-7',
+    ratio: 'aspect-[16/11]',
+    result: 'Property inquiries grew by 3.8× within three months',
+    image: '/mrholdings.png',
   },
 ]
 

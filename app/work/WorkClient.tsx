@@ -31,15 +31,13 @@ const HERO_IMAGE =
 // Per-project cover overrides, keyed by the SAME slug lib/work uses.
 // Falls back to the project's own `cover` field if a slug has no override —
 // so a typo here never breaks a link, it just shows the default image.
+// Now using your actual PNG images from the public folder
 // ---------------------------------------------------------------------------
 const COVER_OVERRIDES: Record<string, string> = {
-  sipz: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=900&q=80',
-  'mr-holdings':
-    'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=900&q=80',
-  'moose-on-the-run':
-    'https://images.unsplash.com/photo-1567521464027-f127ff144326?auto=format&fit=crop&w=900&q=80',
-  smartbite:
-    'https://images.unsplash.com/photo-1476224203421-9ac39bcb3df5?auto=format&fit=crop&w=900&q=80',
+  sipz: '/sipz.png',
+  'mr-holdings': '/mrholdings.png',
+  'moose-on-the-run': '/moose.png',
+  smartbite: '/smart.png',
 }
 
 // Single source of truth: PROJECTS from lib/work, with an optional cover

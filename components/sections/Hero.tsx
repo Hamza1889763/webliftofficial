@@ -80,7 +80,7 @@ export default function Hero() {
               playsInline
               autoPlay
               preload="metadata"
-              poster="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1920&q=85"
+              poster="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1920&q=85"
               aria-hidden
             >
               <source src="/heromain.mp4" type="video/mp4" />
@@ -125,8 +125,7 @@ export default function Hero() {
             <StudioTime />
           </motion.div>
 
-          {/* Headline. Set wide on the width axis, near-zero leading, masked lift
-              per line. This is the 3-second moment. */}
+          {/* Headline */}
           <Lift
             as="h1"
             onMount
@@ -158,8 +157,7 @@ export default function Hero() {
               </div>
             </motion.div>
 
-            {/* Facts replace the placeholder avatar row: real numbers, mono set,
-                right-aligned as a counterweight to the headline. */}
+            {/* Facts replace the placeholder avatar row */}
             <motion.dl
               initial={{ opacity: 0, y: 22 }}
               animate={{ opacity: 1, y: 0 }}
@@ -184,8 +182,7 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Horizon: a single gold hairline drawn across the full viewport. The
-            hero's one graphic gesture — everything above it is the ascent. */}
+        {/* Horizon hairline */}
         <motion.div
           aria-hidden
           initial={{ scaleX: 0 }}

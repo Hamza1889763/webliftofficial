@@ -14,14 +14,11 @@ type Project = {
   name: string
   sector: string
   year: string
-  /** The outcome, not the adjective. This is what makes a gallery persuasive. */
   result: string
   image: string
-  /** Bento span. Deliberately uneven so the grid reads as a composition. */
-  span: string
-  ratio: string
 }
 
+// All four cards: same ratio, same column span — clean 2×2 window grid.
 const PROJECTS: Project[] = [
   {
     slug: 'sipz',
@@ -29,9 +26,7 @@ const PROJECTS: Project[] = [
     sector: 'Beverage company — America',
     year: '2025',
     result: 'Brand awareness increased by 240% in target markets',
-    image: '/work/sipz.jpg',
-    span: 'md:col-span-6',
-    ratio: 'aspect-[16/11]',
+    image: '/sipz.png',
   },
   {
     slug: 'smartbite',
@@ -39,9 +34,7 @@ const PROJECTS: Project[] = [
     sector: 'Application — Global',
     year: '2025',
     result: 'User retention improved by 45% after redesign',
-    image: '/work/smartbite.jpg',
-    span: 'md:col-span-6',
-    ratio: 'aspect-[4/5]',
+    image: '/smart.png',
   },
   {
     slug: 'mrholdings',
@@ -49,9 +42,7 @@ const PROJECTS: Project[] = [
     sector: 'Real estate website — UAE',
     year: '2024',
     result: 'Property inquiries grew by 3.8× within three months',
-    image: '/work/mrholdings.jpg',
-    span: 'md:col-span-5',
-    ratio: 'aspect-[4/5]',
+    image: '/mrholdings.png',
   },
   {
     slug: 'moose-on-the-run',
@@ -59,9 +50,7 @@ const PROJECTS: Project[] = [
     sector: 'Gas station & market — America',
     year: '2024',
     result: 'Average transaction value increased by 28% at locations',
-    image: '/work/moose-on-the-run.jpg',
-    span: 'md:col-span-7',
-    ratio: 'aspect-[16/11]',
+    image: '/moose.png',
   },
 ]
 
@@ -72,31 +61,27 @@ function Card({ p, i }: { p: Project; i: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.95, delay: (i % 2) * 0.09, ease: LIFT }}
-      className={`group relative ${p.span}`}
+      className="group relative md:col-span-6"
     >
       <a href={`/work/${p.slug}`} className="block">
-        <div className={`relative overflow-hidden rounded-4xl bg-teal ${p.ratio}`}>
-          {/* Image placeholder - replace with actual images */}
-          <div className="relative h-full w-full">
-            <div className="absolute inset-0 bg-gradient-to-br from-teal/40 via-teal to-teal-lift/30" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-sm uppercase tracking-[0.2em] text-on-ink/30 opacity-50">
-                {p.name}
-              </span>
-            </div>
-            {/* Uncomment when you have actual images:
-            <Image
-              src={p.image}
-              alt={`${p.name} — ${p.sector}`}
-              fill
-              sizes="(max-width: 768px) 100vw, 55vw"
-              loading={i < 2 ? 'eager' : 'lazy'}
-              className="object-cover transition-transform duration-[1100ms] ease-lift will-change-transform group-hover:scale-[1.06]"
-            />
-            */}
-          </div>
+        {/* Fixed ratio — aspect-[16/11] on every card, same as Sipz */}
+        <div className="relative aspect-[16/11] overflow-hidden rounded-4xl bg-teal">
+          <Image
+            src={p.image}
+            alt={`${p.name} — ${p.sector}`}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            loading={i < 2 ? 'eager' : 'lazy'}
+            className="object-cover transition-transform duration-[1100ms] ease-lift will-change-transform group-hover:scale-[1.06]"
+          />
+
+          {/* Subtle teal wash for brand consistency */}
+          <div className="absolute inset-0 bg-gradient-to-br from-teal/20 via-transparent to-ink/10" />
+
+          {/* Bottom gradient so text is always legible */}
           <div className="absolute inset-0 bg-gradient-to-t from-ink/92 via-ink/20 to-transparent" />
 
+          {/* Top bar */}
           <div className="absolute inset-x-0 top-0 flex items-center justify-between p-6">
             <span className="mono text-on-ink-mute">{p.year}</span>
             <span className="flex h-10 w-10 -translate-y-1 items-center justify-center rounded-full bg-gold text-ink opacity-0 transition-all duration-500 ease-lift group-hover:translate-y-0 group-hover:opacity-100">
@@ -104,6 +89,7 @@ function Card({ p, i }: { p: Project; i: number }) {
             </span>
           </div>
 
+          {/* Bottom meta */}
           <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
             <p className="mono text-gold">{p.sector}</p>
             <h3 className="display mt-3 text-[clamp(1.5rem,3vw,2.4rem)] text-on-ink">
@@ -119,11 +105,6 @@ function Card({ p, i }: { p: Project; i: number }) {
   )
 }
 
-/**
- * Bento gallery on the ink ground. Uneven column spans and alternating aspect
- * ratios mean no two rows repeat, which is what stops a case-study grid from
- * looking like a template.
- */
 export default function Work() {
   return (
     <section id="work" data-section className="band on-ink">
@@ -145,6 +126,7 @@ export default function Work() {
           </Reveal>
         </div>
 
+        {/* 2×2 window grid — equal columns, equal rows */}
         <div className="mt-14 grid grid-cols-1 gap-5 md:mt-20 md:grid-cols-12">
           {PROJECTS.map((p, i) => (
             <Card key={p.slug} p={p} i={i} />

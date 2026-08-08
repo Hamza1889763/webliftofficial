@@ -81,6 +81,8 @@ export default function CaseStudyClient({
                 fill
                 priority
                 sizes="100vw"
+                quality={100}
+                unoptimized={false}
                 className="object-cover"
               />
             </motion.div>
@@ -204,7 +206,7 @@ export default function CaseStudyClient({
             <Chapter label="The problem" title="What wasn't working" paras={p.problem} />
 
             {/* First shot breaks the prose — full bleed within the shell. */}
-            {p.shots[0] && (
+            {p.shots && p.shots.length > 0 && (
               <Reveal>
                 <figure>
                   <div className="relative aspect-[16/9] overflow-hidden rounded-4xl bg-teal">
@@ -213,6 +215,7 @@ export default function CaseStudyClient({
                       alt={p.shots[0].caption}
                       fill
                       sizes="(max-width: 1024px) 100vw, 85vw"
+                      quality={100}
                       className="object-cover"
                     />
                   </div>
@@ -226,7 +229,7 @@ export default function CaseStudyClient({
             <Chapter label="The approach" title="What we did" paras={p.approach} />
 
             {/* Remaining shots, two up. */}
-            {p.shots.length > 1 && (
+            {p.shots && p.shots.length > 1 && (
               <div className="grid gap-5 md:grid-cols-2">
                 {p.shots.slice(1).map((s, i) => (
                   <motion.figure
@@ -244,6 +247,7 @@ export default function CaseStudyClient({
                         fill
                         loading="lazy"
                         sizes="(max-width: 768px) 100vw, 45vw"
+                        quality={100}
                         className="object-cover transition-transform duration-[1100ms] ease-lift group-hover:scale-[1.04]"
                       />
                     </div>
@@ -304,6 +308,7 @@ export default function CaseStudyClient({
                     fill
                     loading="lazy"
                     sizes="14rem"
+                    quality={100}
                     className="object-cover transition-transform duration-[900ms] ease-lift group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-teal/25 mix-blend-color" />
