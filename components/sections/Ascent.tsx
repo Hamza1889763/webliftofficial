@@ -55,7 +55,7 @@ export default function Ascent() {
   const glowY = useTransform(fill, [0, 1], ['0%', '100%'])
 
   return (
-    <section id="ascent" data-section className="band on-mist overflow-hidden">
+    <section id="process" data-section className="band on-mist overflow-hidden">
       <div className="shell">
         <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>

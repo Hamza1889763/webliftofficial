@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import ContactHero from '@/components/contact/ContactHero'
 import Availability from '@/components/contact/Availability'
 import Brief from '@/components/sections/Brief'
-import Footer from '@/components/sections/Footer'
 
 export const metadata: Metadata = {
   title: 'Contact — Weblifts',
@@ -23,7 +22,6 @@ export default function ContactPage() {
       <ContactHero />
       <Availability />
       <Brief />
-      <Footer />
     </>
   )
 }

@@ -5,6 +5,7 @@ import './globals.css'
 import SmoothScroll from '@/components/providers/SmoothScroll'
 import Grain from '@/components/atoms/Grain'
 import Nav from '@/components/chrome/Nav'
+import Footer from '@/components/sections/Footer'
 
 const display = Bricolage_Grotesque({
   subsets: ['latin'],
@@ -63,6 +64,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SmoothScroll>
           <main>{children}</main>
         </SmoothScroll>
+        <Footer />
       </body>
     </html>
   )

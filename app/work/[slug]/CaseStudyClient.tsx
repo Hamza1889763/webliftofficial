@@ -7,8 +7,6 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 
 import { LIFT } from '@/lib/motion'
 import type { Project } from '@/lib/work'
-import Nav from '@/components/chrome/Nav'
-import Footer from '@/components/sections/Footer'
 import Lift from '@/components/atoms/Lift'
 import Reveal from '@/components/atoms/Reveal'
 import Button from '@/components/atoms/Button'
@@ -66,7 +64,6 @@ export default function CaseStudyClient({
 
   return (
     <>
-      <Nav />
 
       <main>
         {/* ================================================================
@@ -330,7 +327,6 @@ export default function CaseStudyClient({
         </section>
       </main>
 
-      <Footer />
     </>
   )
 }

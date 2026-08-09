@@ -9,20 +9,19 @@ const COLUMNS = [
   {
     title: 'Services',
     links: [
-      { label: 'Web development', href: '/services/web' },
-      { label: 'App development', href: '/services/apps' },
-      { label: 'Shopify & ecommerce', href: '/services/commerce' },
-      { label: 'Brand identity', href: '/services/brand' },
-      { label: 'Social media', href: '/services/social' },
+      { label: 'Web development', href: '/services#web' },
+      { label: 'App development', href: '/services#apps' },
+      { label: 'Shopify & ecommerce', href: '/services#commerce' },
+      { label: 'Brand identity', href: '/services#brand' },
+      { label: 'Social media', href: '/services#social' },
     ],
   },
   {
     title: 'Studio',
     links: [
       { label: 'Work', href: '/work' },
-      { label: 'Process', href: '#ascent' },
-      { label: 'Pricing', href: '#pricing' },
-      { label: 'Questions', href: '#questions' },
+      { label: 'Process', href: '/process' },
+      { label: 'Questions', href: '/#questions' },
     ],
   },
 ]
@@ -38,8 +37,11 @@ export default function Footer() {
   return (
     <footer className="relative overflow-hidden bg-ink">
       <div className="shell hairline-dark pb-10 pt-16 md:pt-20">
-        <div className="grid gap-12 md:grid-cols-[1.3fr_1fr_1fr_1.2fr]">
-          <div>
+        {/* Mobile: 2-up grid, brand + contact span both columns so the two
+            short nav lists sit side by side instead of stacking to four rows.
+            md+: the original asymmetric 4-column layout. */}
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-[1.3fr_1fr_1fr_1.2fr] md:gap-12">
+          <div className="col-span-2 md:col-span-1">
             <a href="#top" className="group flex items-baseline gap-1.5">
               <span className="display display--narrow text-2xl text-on-ink">Weblifts</span>
               <span className="h-1.5 w-1.5 rounded-full bg-gold transition-transform duration-500 ease-lift group-hover:-translate-y-1" />
@@ -71,7 +73,7 @@ export default function Footer() {
           </div>
 
           {COLUMNS.map((col) => (
-            <nav key={col.title} aria-label={col.title}>
+            <nav key={col.title} className="col-span-1" aria-label={col.title}>
               <h2 className="mono text-gold">{col.title}</h2>
               <ul className="mt-5 space-y-3">
                 {col.links.map((l) => (
@@ -92,7 +94,7 @@ export default function Footer() {
             </nav>
           ))}
 
-          <div>
+          <div className="col-span-2 md:col-span-1">
             <h2 className="mono text-gold">Contact</h2>
             <ul className="mt-5 space-y-3 text-s-1">
               <li>

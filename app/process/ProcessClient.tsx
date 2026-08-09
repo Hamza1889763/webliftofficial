@@ -7,8 +7,7 @@ import { useRef } from 'react'
 
 import { LIFT } from '@/lib/motion'
 import { PHASES, WEEKS, RISKS, IMAGES, type Owner } from '@/lib/process'
-import Nav from '@/components/chrome/Nav'
-import Footer from '@/components/sections/Footer'
+
 import Lift from '@/components/atoms/Lift'
 import Reveal from '@/components/atoms/Reveal'
 import Eyebrow from '@/components/atoms/Eyebrow'
@@ -102,7 +101,7 @@ export default function ProcessClient() {
 
   return (
     <>
-      <Nav />
+
 
       <main>
         {/* ================================================================
@@ -553,7 +552,6 @@ export default function ProcessClient() {
         </section>
       </main>
 
-      <Footer />
     </>
   )
 }

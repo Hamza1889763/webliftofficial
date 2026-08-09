@@ -83,7 +83,7 @@ export default function Brief() {
   }
 
   return (
-    <section id="brief" data-section className="relative isolate overflow-hidden on-ink">
+    <section id="contact" data-section className="relative isolate overflow-hidden on-ink">
       {/* Cursor-tracked bloom shared by the CTA and the form — one light source
           for the whole closing act. */}
       <div ref={ref} className="absolute inset-0 -z-10">

@@ -12,8 +12,6 @@ import {
 
 import { LIFT } from '@/lib/motion'
 import { PROJECTS } from '@/lib/work'
-import Nav from '@/components/chrome/Nav'
-import Footer from '@/components/sections/Footer'
 import Lift from '@/components/atoms/Lift'
 import Reveal from '@/components/atoms/Reveal'
 import Eyebrow from '@/components/atoms/Eyebrow'
@@ -138,7 +136,6 @@ export default function WorkClient() {
 
   return (
     <>
-      <Nav />
       <Preview src={previewSrc} visible={Boolean(hovered)} />
 
       <main>
@@ -339,7 +336,7 @@ export default function WorkClient() {
                     whether we can move it.
                   </p>
                   <div className="mt-7 flex flex-wrap gap-3 lg:justify-end">
-                    <Button href="/#brief" variant="gold">
+                    <Button href="/contact#contact" variant="gold">
                       Start a project
                     </Button>
                     <Button href="/services" variant="outline-dark">
@@ -353,7 +350,6 @@ export default function WorkClient() {
         </section>
       </main>
 
-      <Footer />
     </>
   )
 }

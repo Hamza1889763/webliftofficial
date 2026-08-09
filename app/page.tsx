@@ -7,7 +7,6 @@ import Ascent from '@/components/sections/Ascent'
 import Voices from '@/components/sections/Voices'
 import Questions from '@/components/sections/Questions'
 import Brief from '@/components/sections/Brief'
-import Footer from '@/components/sections/Footer'
 import Altimeter from '@/components/chrome/Altimeter'
 import Preloader from '@/components/chrome/Preloader'
 /**
@@ -28,7 +27,6 @@ import Preloader from '@/components/chrome/Preloader'
 export default function Home() {
   return (
     <>
-    <Preloader />
     <Altimeter />
       <Hero />
       <Ticker />
@@ -39,7 +37,6 @@ export default function Home() {
       <Voices />
       <Questions />
       <Brief />
-      <Footer />
     </>
   )
 }

@@ -6,8 +6,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { LIFT } from '@/lib/motion'
 import { SITE } from '@/lib/site'
 import { SERVICES } from '@/lib/services'
-import Nav from '@/components/chrome/Nav'
-import Footer from '@/components/sections/Footer'
 import Lift from '@/components/atoms/Lift'
 import Reveal from '@/components/atoms/Reveal'
 import Eyebrow from '@/components/atoms/Eyebrow'
@@ -40,6 +38,8 @@ function resolveServiceImage(service: (typeof SERVICES)[number]): string {
 export default function ServicesClient() {
   const [active, setActive] = useState(0)
   const tabs = useRef<(HTMLButtonElement | null)[]>([])
+  // Stable scroll anchor for the explorer section — see goToService.
+  const mediaRef = useRef<HTMLDivElement>(null)
   const current = SERVICES[active]
 
   useEffect(() => {
@@ -48,10 +48,33 @@ export default function ServicesClient() {
     if (i >= 0) setActive(i)
   }, [])
 
+  // Height of the sticky nav bar — used as an explicit scroll offset instead
+  // of relying on scroll-margin support, which is inconsistent on mobile
+  // Safari when combined with a smooth-scrolled programmatic scroll.
+  const NAV_OFFSET = 96
+
   const select = useCallback((i: number) => {
     setActive(i)
     window.history.replaceState(null, '', `#${SERVICES[i].id}`)
   }, [])
+
+  /** Used by the index list and the scope cards/table — sets the active
+   *  service, keeps the URL hash for deep-linking, and scrolls to a fixed
+   *  anchor at the top of the explorer section on the next frame (after
+   *  React has committed the state update). These are plain buttons with no
+   *  href, so there's no native hash-jump that can race against this. */
+  const goToService = useCallback(
+    (i: number) => {
+      select(i)
+      requestAnimationFrame(() => {
+        const el = mediaRef.current
+        if (!el) return
+        const top = el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET
+        window.scrollTo({ top, behavior: 'smooth' })
+      })
+    },
+    [select]
+  )
 
   const onKeyDown = (e: React.KeyboardEvent) => {
     const map: Record<string, number> = {
@@ -85,7 +108,6 @@ export default function ServicesClient() {
 
   return (
     <>
-      <Nav />
 
       <main>
         {/* ================================================================
@@ -190,10 +212,12 @@ export default function ServicesClient() {
                     transition={{ duration: 0.8, delay: 0.5 + i * 0.06, ease: LIFT }}
                     className="border-b border-white/8"
                   >
-                    <a
-                      href={`#${s.id}`}
-                      onClick={() => select(i)}
-                      className="group flex items-baseline gap-4 py-4 md:gap-8 md:py-5"
+                    {/* Button, not a link — no href means no native hash-jump
+                        can ever race against goToService's own scroll. */}
+                    <button
+                      type="button"
+                      onClick={() => goToService(i)}
+                      className="group flex w-full items-baseline gap-4 py-4 text-left md:gap-8 md:py-5"
                     >
                       <span className="mono shrink-0 text-gold">{s.index}</span>
                       <span className="display flex-1 text-[clamp(1.1rem,2.6vw,1.75rem)] text-on-ink/70 transition-colors duration-400 group-hover:text-on-ink">
@@ -208,7 +232,7 @@ export default function ServicesClient() {
                       >
                         <Icon name="arrow" size={16} />
                       </span>
-                    </a>
+                    </button>
                   </motion.li>
                 ))}
               </ul>
@@ -221,11 +245,20 @@ export default function ServicesClient() {
             ================================================================ */}
         <section className="band on-mist overflow-hidden">
           <div className="shell">
+            {/* Stable scroll anchor — sits above both grid columns, so its
+                position never shifts when a tab panel expands/collapses. */}
+            <div ref={mediaRef} id="explorer-media" className="scroll-mt-24" />
+
             <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
-              {/* Media + meta panel */}
-              <Reveal className="order-2 lg:order-1">
+              {/* Media + meta panel — no mobile order override, so it keeps
+                  its natural place ahead of the tablist on phones. */}
+              <Reveal className="lg:order-1">
                 <div className="lg:sticky lg:top-28">
-                  <div className="relative aspect-[4/5] overflow-hidden rounded-4xl bg-ink">
+                  {/* Capped height on mobile — a full 4:5 portrait image at
+                      phone width runs very tall and pushes the tab list far
+                      down before anyone reaches it. Released back to the
+                      full aspect ratio from sm: up. */}
+                  <div className="relative aspect-[4/5] max-h-[24rem] overflow-hidden rounded-4xl bg-ink sm:max-h-none">
                     <AnimatePresence mode="popLayout">
                       <motion.div
                         key={current.id}
@@ -284,7 +317,7 @@ export default function ServicesClient() {
               </Reveal>
 
               {/* Tablist */}
-              <div className="order-1 lg:order-2">
+              <div className="lg:order-2">
                 <div
                   role="tablist"
                   aria-label="Services"
@@ -426,7 +459,9 @@ export default function ServicesClient() {
         </section>
 
         {/* ================================================================
-            3 — SCOPE TABLE (ink)
+            3 — SCOPE (ink)
+            Table at md+; a stacked card list below md so mobile never hits
+            a horizontally-scrolling table — same data, no min-width comb.
             ================================================================ */}
         <section className="band on-ink">
           <div className="shell">
@@ -438,8 +473,9 @@ export default function ServicesClient() {
               className="display max-w-[15ch] text-s3 text-on-ink"
             />
 
+            {/* Table — md and up */}
             <Reveal delay={0.1}>
-              <div className="no-bar mt-12 overflow-x-auto md:mt-16">
+              <div className="no-bar mt-12 hidden overflow-x-auto md:mt-16 md:block">
                 <table className="w-full min-w-[36rem] border-collapse text-left">
                   <caption className="sr-only">
                     WebLifts services compared by timeline and fit
@@ -477,9 +513,9 @@ export default function ServicesClient() {
                           {s.timeline}
                         </td>
                         <td className="py-5 align-top text-right">
-                          <a
-                            href={`#${s.id}`}
-                            onClick={() => select(i)}
+                          <button
+                            type="button"
+                            onClick={() => goToService(i)}
                             className="mono inline-flex items-center gap-2 text-on-ink-mute transition-colors duration-300 hover:text-gold"
                           >
                             Scope
@@ -489,7 +525,7 @@ export default function ServicesClient() {
                             >
                               <Icon name="arrow" size={14} />
                             </span>
-                          </a>
+                          </button>
                         </td>
                       </motion.tr>
                     ))}
@@ -497,6 +533,47 @@ export default function ServicesClient() {
                 </table>
               </div>
             </Reveal>
+
+            {/* Cards — below md, same data, no forced horizontal scroll */}
+            <div className="mt-10 grid gap-3 md:hidden">
+              {SERVICES.map((s, i) => (
+                <motion.div
+                  key={s.id}
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.4 }}
+                  transition={{ duration: 0.7, delay: i * 0.05, ease: LIFT }}
+                  className="rounded-2xl bg-white/[0.03] p-5 ring-1 ring-inset ring-white/10"
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="flex min-w-0 items-center gap-3">
+                      <Icon name={s.icon} size={18} className="shrink-0 text-gold" />
+                      <span className="display truncate text-lg text-on-ink">{s.title}</span>
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => goToService(i)}
+                      className="mono inline-flex shrink-0 items-center gap-1.5 text-on-ink-mute transition-colors duration-300 hover:text-gold"
+                    >
+                      Scope
+                      <Icon name="arrow" size={13} />
+                    </button>
+                  </div>
+                  <dl className="mt-4 grid grid-cols-2 gap-4 border-t border-white/8 pt-4">
+                    <div>
+                      <dt className="mono text-on-ink-mute">Best for</dt>
+                      <dd className="mt-1 text-s-1 leading-snug text-on-ink-mute">
+                        {s.bestFor}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="mono text-on-ink-mute">Timeline</dt>
+                      <dd className="mono mt-1 text-on-ink-mute">{s.timeline}</dd>
+                    </div>
+                  </dl>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -600,7 +677,7 @@ export default function ServicesClient() {
                       </span>
                     </a>
                   </Magnetic>
-                  <Button href="/#brief" variant="outline-light">
+                  <Button href="/contact#contact" variant="outline-light">
                     Send a full brief
                   </Button>
                 </div>
@@ -616,7 +693,7 @@ export default function ServicesClient() {
         </section>
       </main>
 
-      <Footer />
+
     </>
   )
 }

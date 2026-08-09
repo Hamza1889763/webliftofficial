@@ -250,7 +250,7 @@ export default function Services() {
               <p className="mt-8 text-s-1 text-on-mist-mute">
                 Not sure which one you need?{' '}
                 <a
-                  href="#brief"
+                  href="#contact"
                   className="text-on-mist underline decoration-bronze/40 decoration-1 underline-offset-4 transition-colors hover:decoration-bronze"
                 >
                   Send us the problem instead
