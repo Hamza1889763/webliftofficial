@@ -8,7 +8,7 @@ import Nav from '@/components/chrome/Nav'
 import Footer from '@/components/sections/Footer'
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-
+import Script from 'next/script'
 const display = Bricolage_Grotesque({
   subsets: ['latin'],
   display: 'swap',
