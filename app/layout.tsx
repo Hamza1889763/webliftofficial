@@ -6,6 +6,8 @@ import SmoothScroll from '@/components/providers/SmoothScroll'
 import Grain from '@/components/atoms/Grain'
 import Nav from '@/components/chrome/Nav'
 import Footer from '@/components/sections/Footer'
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const display = Bricolage_Grotesque({
   subsets: ['latin'],
@@ -41,7 +43,7 @@ export const metadata: Metadata = {
     title: 'WebLifts — Digital studio in Lahore',
     description:
       'Sites, stores and apps for brands across Pakistan and the Gulf. Fixed scope, published prices, six-week launches.',
-    images: ['/og.jpg'],
+    images: ['/logo.jpeg'],
   },
   twitter: { card: 'summary_large_image' },
   alternates: { canonical: '/' },
@@ -65,6 +67,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main>{children}</main>
         </SmoothScroll>
         <Footer />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )
