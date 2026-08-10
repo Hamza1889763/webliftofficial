@@ -6,6 +6,7 @@ import SmoothScroll from '@/components/providers/SmoothScroll'
 import Grain from '@/components/atoms/Grain'
 import Nav from '@/components/chrome/Nav'
 import Footer from '@/components/sections/Footer'
+import Script from 'next/script'
 
 const display = Bricolage_Grotesque({
   subsets: ['latin'],
@@ -56,9 +57,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${display.variable} ${body.variable} ${mono.variable} scroll-smooth data-scroll-behavior="smooth"`}
+      className={`${display.variable} ${body.variable} ${mono.variable} scroll-smooth`}
     >
       <body suppressHydrationWarning>
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-TNWWJZRR6D"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-TNWWJZRR6D');
+          `}
+        </Script>
+
         <Grain />
         <Nav />
         <SmoothScroll>
