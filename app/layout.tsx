@@ -58,7 +58,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${display.variable} ${body.variable} ${mono.variable} scroll-smooth`}
+      className={`${display.variable} ${body.variable} ${mono.variable} data-scroll-behavior="smooth"`}
     >
       <body suppressHydrationWarning>
         {/* Google Analytics */}

@@ -69,7 +69,7 @@ export default function CaseStudyClient({
         {/* ================================================================
             1 — HERO (ink)
             ================================================================ */}
-        <section ref={heroRef} className="relative isolate overflow-hidden on-ink">
+        <section id="home" ref={heroRef} className="relative isolate overflow-hidden on-ink">
           <div className="absolute inset-0 -z-10">
             <motion.div className="absolute inset-0" style={{ y: coverY, scale: coverScale }}>
               <Image
@@ -115,6 +115,18 @@ export default function CaseStudyClient({
               <Reveal delay={0.4}>
                 <p className="lede mt-6 text-gold">{p.headline}</p>
               </Reveal>
+
+              {/* Add the Live Site Button Here */}
+              {/* Add the Live Site Button Here */}
+              {p.url && (
+                <Reveal delay={0.45}>
+                  <div className="mt-8">
+                    <Button href={p.url} variant="gold" external>
+                      View live site
+                    </Button>
+                  </div>
+                </Reveal>
+              )}
             </div>
 
             {/* Meta bar — the instrument-panel language, applied to project facts. */}
@@ -286,29 +298,51 @@ export default function CaseStudyClient({
             5 — NEXT PROJECT (ink)
             Ends on forward motion rather than a dead end.
             ================================================================ */}
-        <section className="on-ink pb-[clamp(4rem,9vh,7rem)]">
+{/* ================================================================
+            5 — NEXT PROJECT (ink)
+            Ends on forward motion rather than a dead end.
+            ================================================================ */}
+        <section className="on-ink pb-[clamp(4rem,9vh,7rem)] pt-10">
           <div className="shell">
-            <Link href={`/work/${next.slug}`} className="group block">
-              <div className="hairline-dark flex flex-col gap-6 pt-10 md:flex-row md:items-end md:justify-between">
-                <div>
-                  <span className="mono text-on-ink-mute">Next project</span>
-                  <span className="display mt-3 block text-[clamp(2rem,6vw,4rem)] text-on-ink/70 transition-colors duration-500 group-hover:text-on-ink">
+            <Link 
+              href={`/work/${next.slug}`}
+              scroll={true} 
+              className="group block overflow-hidden rounded-4xl border border-white/[0.06] bg-white/[0.02] p-6 transition-all duration-700 ease-lift hover:border-white/[0.12] hover:bg-white/[0.06] md:p-10"
+            >
+              <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+                <div className="max-w-xl">
+                  {/* Eyebrow with animated arrow */}
+                  <div className="flex items-center gap-4">
+                    <span className="mono text-gold">Next project</span>
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gold/10 text-gold transition-all duration-500 ease-lift group-hover:translate-x-2 group-hover:bg-gold group-hover:text-ink">
+                      <Icon name="arrow" size={14} />
+                    </span>
+                  </div>
+                  
+                  {/* Title */}
+                  <span className="display mt-5 block text-[clamp(2.4rem,6vw,4.5rem)] leading-[1.05] text-on-ink/80 transition-colors duration-500 group-hover:text-on-ink">
                     {next.name}
                   </span>
-                  <span className="mt-2 block text-s-1 text-on-ink-mute">{next.headline}</span>
+                  
+                  {/* Headline */}
+                  <span className="mt-4 block text-s-1 text-on-ink-mute transition-colors duration-500 group-hover:text-on-ink/80">
+                    {next.headline}
+                  </span>
                 </div>
 
-                <div className="relative h-28 w-full shrink-0 overflow-hidden rounded-2xl bg-teal md:h-32 md:w-56">
+                {/* Much larger thumbnail that reveals true colors on hover */}
+                <div className="relative h-56 w-full shrink-0 overflow-hidden rounded-2xl bg-teal md:h-64 md:w-[26rem]">
                   <Image
                     src={next.cover}
                     alt=""
                     fill
                     loading="lazy"
-                    sizes="14rem"
+                    sizes="(max-width: 768px) 100vw, 26rem"
                     quality={100}
-                    className="object-cover transition-transform duration-[900ms] ease-lift group-hover:scale-105"
+                    className="object-cover transition-transform duration-[1100ms] ease-lift group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-teal/25 mix-blend-color" />
+                  {/* The teal wash fades out on hover so the image pops */}
+                  <div className="absolute inset-0 bg-teal/40 mix-blend-color transition-opacity duration-700 group-hover:opacity-0" />
                 </div>
               </div>
             </Link>
@@ -318,14 +352,13 @@ export default function CaseStudyClient({
                 Start a project
               </Button>
               {p.url && (
-                <Button href={p.url} variant="outline-light" external>
-                  Visit the live site
-                </Button>
-              )}
+  <Button href={p.url} variant="outline-light" external>
+    Visit the live site
+  </Button>
+)}
             </div>
           </div>
-        </section>
-      </main>
+        </section>      </main>
 
     </>
   )

@@ -9,52 +9,16 @@ import Eyebrow from '@/components/atoms/Eyebrow'
 import Button from '@/components/atoms/Button'
 import Icon from '@/components/atoms/Icon'
 
-type Project = {
-  slug: string
-  name: string
-  sector: string
-  year: string
-  result: string
-  image: string
-}
+// 1. Import your central data and type 
+// (Make sure to adjust '@/lib/data' to the actual path of your projects file)
+import { PROJECTS, type Project } from '@/lib/work'
 
-// All four cards: same ratio, same column span — clean 2×2 window grid.
-const PROJECTS: Project[] = [
-  {
-    slug: 'sipz',
-    name: 'Sipz',
-    sector: 'Beverage company — America',
-    year: '2025',
-    result: 'Brand awareness increased by 240% in target markets',
-    image: '/sipz.png',
-  },
-  {
-    slug: 'smartbite',
-    name: 'SmartBite',
-    sector: 'Application — Global',
-    year: '2025',
-    result: 'User retention improved by 45% after redesign',
-    image: '/smart.png',
-  },
-  {
-    slug: 'mrholdings',
-    name: 'MR Holdings',
-    sector: 'Real estate website — UAE',
-    year: '2024',
-    result: 'Property inquiries grew by 3.8× within three months',
-    image: '/mrholdings.png',
-  },
-  {
-    slug: 'moose-on-the-run',
-    name: 'Moose on the Run',
-    sector: 'Gas station & market — America',
-    year: '2024',
-    result: 'Average transaction value increased by 28% at locations',
-    image: '/moose.png',
-  },
-]
+// 2. Filter out 'smartbite' and grab exactly the first 4 remaining projects
+const DISPLAY_PROJECTS = PROJECTS.filter((p) => p.slug !== 'smartbite').slice(0, 4)
 
 function Card({ p, i }: { p: Project; i: number }) {
+  const imageSrc = p.image || p.cover || ''
+
   return (
     <motion.article
       initial={{ opacity: 0, y: 40 }}
@@ -64,10 +28,9 @@ function Card({ p, i }: { p: Project; i: number }) {
       className="group relative md:col-span-6"
     >
       <a href={`/work/${p.slug}`} className="block">
-        {/* Fixed ratio — aspect-[16/11] on every card, same as Sipz */}
         <div className="relative aspect-[16/11] overflow-hidden rounded-4xl bg-teal">
           <Image
-            src={p.image}
+            src={imageSrc}
             alt={`${p.name} — ${p.sector}`}
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
@@ -76,35 +39,33 @@ function Card({ p, i }: { p: Project; i: number }) {
           />
 
           {/* Subtle teal wash for brand consistency */}
-          <div className="absolute inset-0 bg-gradient-to-br from-teal/20 via-transparent to-ink/10" />
-
-          {/* Bottom gradient so text is always legible */}
-          <div className="absolute inset-0 bg-gradient-to-t from-ink/92 via-ink/20 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-br from-teal/20 via-transparent to-black/10" />
 
           {/* Top bar */}
           <div className="absolute inset-x-0 top-0 flex items-center justify-between p-6">
-            <span className="mono text-on-ink-mute">{p.year}</span>
+            <span className="mono rounded-full bg-black/40 px-4 py-1.5 text-[0.8rem] text-white/90 backdrop-blur-md">
+              {p.year}
+            </span>
             <span className="flex h-10 w-10 -translate-y-1 items-center justify-center rounded-full bg-gold text-ink opacity-0 transition-all duration-500 ease-lift group-hover:translate-y-0 group-hover:opacity-100">
               <Icon name="arrow" size={16} />
             </span>
           </div>
 
           {/* Bottom meta */}
-          <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
-            <p className="mono text-gold">{p.sector}</p>
-            <h3 className="display mt-3 text-[clamp(1.5rem,3vw,2.4rem)] text-on-ink">
-              {p.name}
-            </h3>
-            <p className="mt-2 max-w-sm text-s-1 leading-relaxed text-on-ink-mute transition-all duration-600 ease-lift md:translate-y-1 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100">
-              {p.result}
-            </p>
+          <div className="absolute left-0 bottom-0 p-4 md:p-6 max-w-full">
+            {/* Added 'w-fit' so the background only takes up as much space as the text */}
+            <div className="w-fit rounded-3xl bg-black/40 px-5 py-4 backdrop-blur-md transition-colors duration-500 ease-out group-hover:bg-black/60 md:px-7 md:py-5">
+              <p className="mono text-[0.8rem] text-gold md:text-[0.9rem]">{p.sector}</p>
+              <h3 className="display mt-1 text-[clamp(1.4rem,3vw,2rem)] text-white">
+                {p.name}
+              </h3>
+            </div>
           </div>
         </div>
       </a>
     </motion.article>
   )
 }
-
 export default function Work() {
   return (
     <section id="work" data-section className="band on-ink">
@@ -128,7 +89,7 @@ export default function Work() {
 
         {/* 2×2 window grid — equal columns, equal rows */}
         <div className="mt-14 grid grid-cols-1 gap-5 md:mt-20 md:grid-cols-12">
-          {PROJECTS.map((p, i) => (
+          {DISPLAY_PROJECTS.map((p, i) => (
             <Card key={p.slug} p={p} i={i} />
           ))}
         </div>

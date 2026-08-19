@@ -74,6 +74,7 @@ export const PROJECTS: Project[] = [
     ],
     span: 'md:col-span-7',
     ratio: 'aspect-[16/11]',
+    url: "https://www.sipzwithatwist.com",
     result: 'Brand awareness increased by 240% in target markets',
     image: '/sipz.png',
   },
@@ -123,6 +124,7 @@ export const PROJECTS: Project[] = [
     ],
     span: 'md:col-span-5',
     ratio: 'aspect-[4/5]',
+    url: "https://www.mooseontherun.com",
     result: 'Average transaction value increased by 28% at locations',
     image: '/moose.png',
   },
@@ -168,12 +170,55 @@ export const PROJECTS: Project[] = [
     result: 'User retention improved by 45% after redesign',
     image: '/smart.png',
   },
+  // ---------------------------------------------------------------------------
+  // 5 — Sole District
+  // ---------------------------------------------------------------------------
+  {
+    slug: 'sole-district',
+    name: 'Sole District',
+    sector: 'E-Commerce / Fashion',
+    location: 'Lahore, Pakistan',
+    year: '2026',
+    headline: 'Premium sneaker and streetwear e-commerce platform with automated dispatch',
+    services: ['Web development', 'UI/UX', 'E-Commerce'],
+    stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'MongoDB', 'Resend', 'Cloudinary'],
+    duration: 'Ongoing',
+    brief:
+      'Sole District is a premium sneaker and streetwear brand operating in Pakistan. They needed a high-performance, bespoke e-commerce platform to manage exclusive inventory, process local orders in PKR, and completely automate customer communications without relying on expensive SaaS templates.',
+    problem: [
+      'The brand required a digital storefront that felt as premium and exclusive as the sneakers they sell, avoiding the generic, off-the-shelf look of standard Shopify themes.',
+      'Order management and customer communications needed to be frictionless. Customers required instant, branded email receipts, and the admin team needed immediate notifications for new orders to ensure fast dispatch times.',
+    ],
+    approach: [
+      'Engineered a custom Next.js storefront featuring a bespoke 2-column checkout flow, dynamic cart management, and Cloudinary integration to serve heavily optimized, uncompressed product imagery without timing out.',
+      'Integrated Resend and Nodemailer to automatically dispatch branded HTML email receipts to customers and trigger instant order alerts directly to the admin\'s Gmail inbox upon successful checkout.',
+      'Built a secure MongoDB backend using Mongoose to manage product inventory, automatically update stock to a "sold" status in real-time, and securely log cash-on-delivery orders.',
+    ],
+    outcome: [
+      'Sole District launched with a fast, secure, and visually striking digital presence. The automated email pipeline and custom docket system drastically reduced manual admin work, allowing the team to focus purely on brand growth and order fulfillment.',
+    ],
+    results: [
+      { value: '100%', label: 'Automated email receipts', source: 'Resend integration' },
+      { value: 'Zero', label: 'Third-party platform fees', source: 'Custom Next.js build' },
+      { value: 'Cash on Delivery', label: 'Frictionless local checkout', source: 'Target market optimization' },
+    ],
+    cover: '/soledistrict-cover.png',
+    shots: [
+      { src: '/soledistrict-home.png', caption: 'Homepage — premium dark mode aesthetic' },
+      { src: '/soledistrict-checkout.png', caption: 'Custom 2-column checkout and order docket' },
+    ],
+    span: 'md:col-span-12', // Use md:col-span-12 to make it span the full width of your bento grid, or change to 7/5 to fit your layout
+    ratio: 'aspect-[16/9]',
+    url: "https://www.soledistrictshop.com",
+    result: 'Elevated brand perception and fully automated local order processing.',
+    image: '/soledistrict-cover.png',
+  },
 
   // ---------------------------------------------------------------------------
   // 4 — MR Holdings
   // ---------------------------------------------------------------------------
   {
-    slug: 'mr-holdings',
+    slug: 'mrholdings',
     name: 'MR Holdings',
     sector: 'Real Estate',
     location: 'Lahore, PK',
@@ -213,6 +258,7 @@ export const PROJECTS: Project[] = [
     ],
     span: 'md:col-span-7',
     ratio: 'aspect-[16/11]',
+    url: "https://www.mrholdingsbtl.com",
     result: 'Property inquiries grew by 3.8× within three months',
     image: '/mrholdings.png',
   },
