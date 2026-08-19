@@ -2,6 +2,7 @@
 
 A ground-up redesign, not a restyle. Same brand hexes, same business, same
 WhatsApp-first conversion path; everything else is new.
+file
 
 ---
 
